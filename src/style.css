@@ -1,19 +1,84 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  font-family: 'Inter', system-ui, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: dark;
+/* --- Configuração do Tema (A Paleta do Vazio) --- */
+@theme {
+  --color-void: #0B0B0B;
+  --color-flash: #FFFFFF;
+  --color-neon: #7C5CFF;
+  --color-hologram: #00C2A8;
+  --color-surface: #1A1A1A;
+  
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Space Mono', 'Courier New', monospace;
 }
 
-body {
-  background-color: #0B0B0B;
-  color: #FFFFFF;
-  margin: 0;
-  min-height: 100vh;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+/* --- Camada Base (Fundamentos) --- */
+@layer base {
+  html {
+    /* IMPORTANTE: 'auto' para o Lenis controlar a física do scroll. 
+      Se colocares 'smooth' aqui, o scroll fica travado.
+    */
+    scroll-behavior: auto;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-flash);
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: var(--font-sans);
+  }
+
+  /* Scrollbar Minimalista (Webkit) */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-void); 
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #333; 
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-neon); 
+  }
+
+  /* Seleção de Texto (Highlight) */
+  ::selection {
+    background-color: rgba(124, 92, 255, 0.3); /* Neon suave */
+    color: white;
+  }
+}
+
+/* --- Camada de Componentes (Elementos de Interface) --- */
+@layer components {
+  
+  /* Input Minimalista (Stealth Mode) */
+  .cyber-input {
+    @apply w-full rounded-md px-4 py-3 outline-none transition-all duration-500;
+    
+    /* Estado Normal: Mistura com o fundo, muito discreto */
+    @apply bg-white/[0.03] border border-white/[0.08] text-white placeholder-white/20;
+    
+    font-family: var(--font-sans);
+    font-weight: 300;
+  }
+
+  .cyber-input:focus {
+    /* Estado Focado: Apenas um brilho subtil, sem sombras pesadas */
+    @apply border-neon/50 bg-white/[0.05];
+  }
+
+  /* Ajuste do ícone no Select (Seta branca translúcida) */
+  select.cyber-input {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-opacity='0.3' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 1.2em 1.2em;
+    cursor: pointer;
+  }
 }

@@ -1,231 +1,147 @@
+<script setup>
+import { onMounted, ref } from 'vue';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+gsap.registerPlugin(ScrollTrigger);
+
+const formRef = ref(null);
+const infoRef = ref(null);
+
+onMounted(() => {
+  // Animação de entrada da Esquerda (Infos)
+  gsap.fromTo(infoRef.value.children, 
+    { x: -50, opacity: 0 },
+    { 
+      x: 0, 
+      opacity: 1, 
+      duration: 1, 
+      stagger: 0.2, 
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: infoRef.value,
+        start: "top 80%"
+      }
+    }
+  );
+
+  // Animação de entrada da Direita (Formulário)
+  gsap.fromTo(formRef.value, 
+    { x: 50, opacity: 0, filter: 'blur(10px)' },
+    { 
+      x: 0, 
+      opacity: 1, 
+      filter: 'blur(0px)',
+      duration: 1.2, 
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: formRef.value,
+        start: "top 80%"
+      }
+    }
+  );
+});
+</script>
 
 <template>
-  <section
-    class="font-display bg-background-light dark:bg-background-dark text-flash"
-  >
-    <div
-      class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden"
-    >
-      <div class="layout-container flex h-full grow flex-col">
-        <div
-          class="px-4 sm:px-8 md:px-16 lg:px-20 xl:px-40 flex flex-1 justify-center py-5"
-        >
-          <div
-            class="layout-content-container flex flex-col w-full max-w-7xl flex-1"
-          >
-            <header
-              class="flex items-center justify-between whitespace-nowrap border-b border-solid border-neon/20 px-4 py-3 md:px-10"
-            >
-              <div class="flex items-center gap-4 text-flash">
-                <div class="size-6 text-neon">
-                  <svg
-                    fill="none"
-                    viewbox="0 0 48 48"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z"
-                      fill="currentColor"
-                    ></path>
-                    <path
-                      clip-rule="evenodd"
-                      d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z"
-                      fill="currentColor"
-                      fill-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-                <h2
-                  class="text-flash text-lg font-bold leading-tight tracking-[-0.015em]"
-                >
-                  CineAether
-                </h2>
-              </div>
-              <div class="hidden md:flex flex-1 justify-end gap-8">
-                <div class="flex items-center gap-9">
-                  <a
-                    class="text-flash text-sm font-medium leading-normal hover:text-neon transition-colors"
-                    href="#"
-                    >Home</a
-                  >
-                  <a
-                    class="text-flash text-sm font-medium leading-normal hover:text-neon transition-colors"
-                    href="#"
-                    >Services</a
-                  >
-                  <a
-                    class="text-flash text-sm font-medium leading-normal hover:text-neon transition-colors"
-                    href="#"
-                    >Projects</a
-                  >
-                  <a
-                    class="text-flash text-sm font-medium leading-normal hover:text-neon transition-colors"
-                    href="#"
-                    >About</a
-                  >
-                  <a class="text-neon text-sm font-bold leading-normal" href="#"
-                    >Contact</a
-                  >
-                </div>
-              </div>
-            </header>
-            <main class="flex-grow pt-10 lg:pt-20">
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
-                <div class="flex flex-col gap-10 p-4">
-                  <div class="flex flex-col gap-4">
-                    <p
-                      class="text-4xl lg:text-5xl font-black leading-tight tracking-tighter uppercase text-flash"
-                    >
-                      Conecte-se ao Futuro
-                    </p>
-                    <p
-                      class="text-flash/70 text-base font-normal leading-normal"
-                    >
-                      Este é o seu ponto de contato direto com a CineAether.
-                      Envie-nos a sua mensagem e vamos criar juntos a próxima
-                      experiência audiovisual.
-                    </p>
-                  </div>
-                  <div class="space-y-5">
-                    <div
-                      class="flex items-start gap-4 border-t border-neon/20 py-5"
-                    >
-                      <span class="material-symbols-outlined text-neon mt-1"
-                        >mail</span
-                      >
-                      <div class="flex flex-col">
-                        <p
-                          class="text-flash/70 text-sm font-normal leading-normal"
-                        >
-                          Email Directo
-                        </p>
-                        <p
-                          class="text-flash text-base font-medium leading-normal"
-                        >
-                          connect@cineaether.io
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      class="flex items-start gap-4 border-t border-neon/20 py-5"
-                    >
-                      <span class="material-symbols-outlined text-neon mt-1"
-                        >hub</span
-                      >
-                      <div class="flex flex-col">
-                        <p
-                          class="text-flash/70 text-sm font-normal leading-normal"
-                        >
-                          Redes Sociais
-                        </p>
-                        <p
-                          class="text-flash text-base font-medium leading-normal"
-                        >
-                          LinkedIn / Instagram / ArtStation
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      class="flex items-start gap-4 border-t border-neon/20 py-5"
-                    >
-                      <span class="material-symbols-outlined text-neon mt-1"
-                        >location_on</span
-                      >
-                      <div class="flex flex-col">
-                        <p
-                          class="text-flash/70 text-sm font-normal leading-normal"
-                        >
-                          Sede
-                        </p>
-                        <p
-                          class="text-flash text-base font-medium leading-normal"
-                        >
-                          Neo-Kyoto, Setor Gamma-7
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex flex-col gap-8 p-4">
-                  <h2
-                    class="text-flash text-3xl font-bold leading-tight tracking-tighter uppercase"
-                  >
-                    Formulário de Transmissão
-                  </h2>
-                  <form class="flex flex-col gap-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <label class="flex flex-col flex-1">
-                        <p
-                          class="text-flash text-sm font-medium leading-normal pb-2"
-                        >
-                          Nome Completo
-                        </p>
-                        <input
-                          class="form-input-glass flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-flash focus:ring-0 border h-12 placeholder:text-flash/40 p-3 text-base font-normal leading-normal"
-                          placeholder="Seu Nome"
-                          type="text"
-                        />
-                      </label>
-                      <label class="flex flex-col flex-1">
-                        <p
-                          class="text-flash text-sm font-medium leading-normal pb-2"
-                        >
-                          Endereço de Email
-                        </p>
-                        <input
-                          class="form-input-glass flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-flash focus:ring-0 border h-12 placeholder:text-flash/40 p-3 text-base font-normal leading-normal"
-                          placeholder="seu@email.com"
-                          type="email"
-                        />
-                      </label>
-                    </div>
-                    <label class="flex flex-col flex-1">
-                      <p
-                        class="text-flash text-sm font-medium leading-normal pb-2"
-                      >
-                        Assunto
-                      </p>
-                      <input
-                        class="form-input-glass flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-flash focus:ring-0 border h-12 placeholder:text-flash/40 p-3 text-base font-normal leading-normal"
-                        placeholder="Assunto da Mensagem"
-                        type="text"
-                      />
-                    </label>
-                    <label class="flex flex-col flex-1">
-                      <p
-                        class="text-flash text-sm font-medium leading-normal pb-2"
-                      >
-                        Mensagem
-                      </p>
-                      <textarea
-                        class="form-input-glass flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-flash focus:ring-0 border h-32 placeholder:text-flash/40 p-3 text-base font-normal leading-normal"
-                        placeholder="Digite sua mensagem aqui..."
-                      ></textarea>
-                    </label>
-                    <div class="flex flex-col gap-4 pt-2">
-                      <button
-                        class="btn-primary flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 text-sm font-bold uppercase tracking-wider"
-                      >
-                        <span>Enviar Mensagem</span>
-                      </button>
-                      <!-- Interactive States (examples) -->
-                      <!-- <button class="btn-primary flex min-w-[84px] cursor-wait items-center justify-center overflow-hidden rounded-lg h-12 px-4 text-sm font-bold uppercase tracking-wider opacity-75 animate-pulse">
-                                            <span>Encriptando...</span>
-                                        </button>
-                                        <button class="flex min-w-[84px] cursor-default items-center justify-center overflow-hidden rounded-lg h-12 px-4 text-sm font-bold uppercase tracking-wider bg-green-500/80 text-void">
-                                            <span class="material-symbols-outlined mr-2">check_circle</span>
-                                            <span>Upload Completo</span>
-                                        </button> -->
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </main>
+  <section class="relative min-h-screen w-full bg-void flex items-center justify-center py-20 px-6 md:px-12 lg:px-24 overflow-hidden z-20 border-t border-white/5">
+    
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-neon/10 rounded-full blur-[120px] pointer-events-none translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-hologram/5 rounded-full blur-[100px] pointer-events-none -translate-x-1/2 translate-y-1/2"></div>
+
+    <div class="max-w-[1600px] w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 relative z-10">
+      
+      <div ref="infoRef" class="flex flex-col justify-center gap-12">
+        
+        <div class="space-y-4">
+          <div class="flex items-center gap-4">
+            <span class="w-12 h-[2px] bg-neon"></span>
+            <span class="text-neon font-mono text-sm tracking-[0.3em] uppercase">Status: Online</span>
           </div>
+          <h2 class="text-5xl md:text-7xl font-black text-flash tracking-tighter leading-[0.9]">
+            INICIAR <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon to-hologram">UPLINK</span>
+          </h2>
+          <p class="text-gray-400 text-lg md:text-xl font-light max-w-md leading-relaxed">
+            Estamos prontos para receber o seu sinal. Conte-nos sobre o seu projeto e vamos construir o impossível.
+          </p>
         </div>
+
+        <div class="space-y-8 font-mono text-sm tracking-wider">
+          
+          <div class="flex items-start gap-6 group cursor-pointer">
+            <div class="p-4 rounded-full border border-white/10 bg-white/5 group-hover:border-neon/50 group-hover:bg-neon/10 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white group-hover:text-neon transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-gray-500 text-xs uppercase mb-1">Frequência Direta</p>
+              <p class="text-flash text-lg group-hover:text-neon transition-colors">hello@cineaether.io</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-6 group">
+            <div class="p-4 rounded-full border border-white/10 bg-white/5 group-hover:border-hologram/50 group-hover:bg-hologram/10 transition-all duration-300">
+               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white group-hover:text-hologram transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-gray-500 text-xs uppercase mb-1">Base de Operações</p>
+              <p class="text-flash text-lg">Lisboa, LX Factory <br> <span class="text-xs opacity-50">Setor Criativo B2</span></p>
+            </div>
+          </div>
+
+        </div>
+
       </div>
+
+      <div ref="formRef" class="relative">
+        
+        <div class="absolute -inset-1 bg-gradient-to-r from-neon via-transparent to-hologram opacity-20 blur-md rounded-2xl"></div>
+
+        <form class="relative bg-surface/40 backdrop-blur-xl border border-white/10 p-8 md:p-12 rounded-2xl flex flex-col gap-6 shadow-2xl">
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex flex-col gap-2">
+              <label class="text-xs font-mono text-neon tracking-widest uppercase ml-1">Codinome</label>
+              <input type="text" placeholder="Seu Nome" class="cyber-input" />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label class="text-xs font-mono text-neon tracking-widest uppercase ml-1">Contato</label>
+              <input type="email" placeholder="seu@email.com" class="cyber-input" />
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="text-xs font-mono text-neon tracking-widest uppercase ml-1">Assunto</label>
+            <select class="cyber-input appearance-none">
+              <option>Novo Projeto</option>
+              <option>Colaboração</option>
+              <option>Orçamento</option>
+              <option>Outro</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="text-xs font-mono text-neon tracking-widest uppercase ml-1">Mensagem</label>
+            <textarea placeholder="Descreva sua missão..." rows="5" class="cyber-input resize-none"></textarea>
+          </div>
+
+          <button type="button" class="group relative mt-4 overflow-hidden rounded-lg bg-white/5 border border-white/10 px-8 py-4 transition-all duration-300 hover:border-neon hover:bg-neon/10">
+            <div class="relative flex items-center justify-center gap-4">
+              <span class="font-bold tracking-[0.2em] uppercase text-white group-hover:text-neon transition-colors">Transmitir Dados</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white group-hover:translate-x-1 group-hover:text-neon transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </div>
+          </button>
+
+        </form>
+
+      </div>
+
     </div>
   </section>
 </template>
-
