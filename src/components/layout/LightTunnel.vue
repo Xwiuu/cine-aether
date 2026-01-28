@@ -208,14 +208,6 @@ onUnmounted(() => {
 
     <div ref="videoWrapperRef" class="absolute inset-0 z-0 opacity-0 bg-black">
         
-        <video 
-            ref="videoElement"
-            class="final-video w-full h-full object-cover opacity-90" 
-            autoplay loop muted playsinline
-        >
-            <source src="/showreel.mp4" type="video/mp4">
-        </video>
-        
         <div class="absolute inset-0 flex flex-col items-center justify-center z-50 bg-black/20">
             <h1 class="text-4xl md:text-7xl font-black text-white tracking-[0.2em] mix-blend-overlay mb-8 text-center">
                 CINEAETHER
